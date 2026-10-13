@@ -79,7 +79,6 @@
     .illustration { width:min(100%,400px); margin:12px auto 4px; border-radius:22px; background:radial-gradient(circle at 50% 54%,#eef1e7 0,#f7f6ee 65%,transparent 72%); }
     .illustration img { display:block; width:100%; height:240px; object-fit:contain; }
     .result-animal { margin:12px 0 5px; font-family:Georgia,"Songti SC",serif; font-size:clamp(39px,10vw,64px); line-height:1.2; }
-    .score { color:var(--muted); font-size:14px; }
     .result-copy { max-width:550px; margin:24px auto 0; color:#536157; font-size:16px; line-height:2; text-align:left; background:#f3f3ec; border-radius:17px; padding:22px 24px; }
     .result-section { max-width:550px; margin:27px auto 0; text-align:left; }
     .result-section h3 { margin:0 0 12px; color:var(--green-dark); font-size:17px; }
@@ -87,7 +86,6 @@
     .insight { padding:16px; border:1px solid var(--line); border-radius:15px; background:white; }
     .insight strong { display:block; color:var(--green-dark); font-size:14px; }
     .insight p { color:#536157; font-size:13px; line-height:1.75; margin:7px 0 0; }
-    .insight small { display:block; color:#899184; margin-top:9px; font-size:11px; }
     .baike-card { background:#f1f3ed; border-radius:15px; padding:18px 20px; }
     .baike-card p { color:#536157; line-height:1.8; margin:0 0 10px; font-size:14px; }
     .baike-card small { color:#899184; line-height:1.6; }
@@ -150,7 +148,6 @@
         <div class="result-kicker">YOUR WILD SELF</div>
         <div class="illustration"><img id="result-image" alt="" width="320" height="240"></div>
         <h2 class="result-animal" id="result-name"></h2>
-        <div class="score" id="result-score"></div>
         <div class="result-copy" id="result-copy"></div>
         <div class="result-section"><h3>从你的答案里，看见这些侧面</h3><div class="insight-grid" id="insight-grid"></div></div>
         <div class="result-section baike-card"><h3>动物小档案 · 认识真实的它</h3><p id="baike-copy"></p><small>这里介绍的是动物的自然特征，与你的性格侧写分别阅读更有趣。</small></div>
@@ -158,7 +155,6 @@
           <button class="primary" id="restart" type="button">重新测试</button>
           <button class="secondary" id="back-to-answers" type="button">回看答案</button>
         </div>
-        <p class="result-note" id="range-note"></p>
         <p class="result-note">测试结果仅供娱乐与自我观察，不代表专业心理评估。</p>
       </section>
     </main>
@@ -193,7 +189,6 @@
     ['面对环境突变？', '不安，偏爱稳定不变的环境', '期待新鲜感，适应变化很快'],
     ['对待目标？', '长线守候，愿意漫长等待', '把握当下，重视眼前机遇']
   ];
-  // 按用户提供的区间从高到低匹配。11 个 A 同时落在水獭和白鹇区间，按列表顺序归入水獭。
   const results = [
     { min:21, max:24, name:'云豹', copy:'独栖的隐秘猎手，安静隐忍，爆发力藏在沉静外表下。观察力极强，很少显露情绪，自带疏离高贵感，有自己坚守的底线，不轻易向谁敞开心扉。' },
     { min:19, max:20, name:'盲螈', copy:'偏爱幽暗安静的水域，性子缓慢温和，耐受孤独。对外界变化很敏感，不喜欢纷争，耐性极强，看上去安静柔弱，生命力意外顽强。' },
@@ -310,7 +305,6 @@
     const aCount = answers.reduce((sum, value) => sum + (value === 0 ? 1 : 0), 0);
     const matched = results.find(item => aCount >= item.min && aCount <= item.max);
     document.getElementById('result-name').textContent = matched.name;
-    document.getElementById('result-score').textContent = `24 题中，你选择了 ${aCount} 个 A`;
     document.getElementById('result-copy').textContent = matched.copy;
     const image = document.getElementById('result-image');
     image.src = `animals/${slugs[results.indexOf(matched)]}.svg`;
@@ -325,16 +319,11 @@
       heading.textContent = item.title;
       const text = document.createElement('p');
       text.textContent = first === second ? (first === 0 ? item.bothA : item.bothB) : (first === 0 ? item.aThenB : item.bThenA);
-      const basis = document.createElement('small');
-      basis.textContent = `依据第 ${item.ids[0] + 1}、${item.ids[1] + 1} 题的选择`;
-      card.append(heading, text, basis);
+      card.append(heading, text);
       grid.appendChild(card);
     });
     const fact = animalFacts[matched.name];
     document.getElementById('baike-copy').textContent = fact.summary;
-    document.getElementById('range-note').textContent = aCount === 11
-      ? '区间说明：原始结果中水獭（11–12）与白鹇（10–11）在 11 个 A 处重叠；本页面按结果列表顺序优先匹配，因此 11 个 A 归为水獭。'
-      : '';
     test.classList.add('hidden');
     result.classList.remove('hidden');
     fill.style.width = '100%';
