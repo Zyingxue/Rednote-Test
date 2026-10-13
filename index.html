@@ -76,10 +76,21 @@
     .nav-hint { color:#9a9f94; font-size:12px; }
     .result-panel { padding:clamp(24px,6vw,48px); text-align:center; }
     .result-kicker { color:var(--green); font-size:12px; letter-spacing:.17em; font-weight:750; }
+    .illustration { width:min(100%,400px); margin:12px auto 4px; border-radius:22px; background:radial-gradient(circle at 50% 54%,#eef1e7 0,#f7f6ee 65%,transparent 72%); }
+    .illustration img { display:block; width:100%; height:240px; object-fit:contain; }
     .result-animal { margin:12px 0 5px; font-family:Georgia,"Songti SC",serif; font-size:clamp(39px,10vw,64px); line-height:1.2; }
     .score { color:var(--muted); font-size:14px; }
     .result-copy { max-width:550px; margin:24px auto 0; color:#536157; font-size:16px; line-height:2; text-align:left; background:#f3f3ec; border-radius:17px; padding:22px 24px; }
-    .result-art { font-size:38px; margin-top:23px; filter:saturate(.8); }
+    .result-section { max-width:550px; margin:27px auto 0; text-align:left; }
+    .result-section h3 { margin:0 0 12px; color:var(--green-dark); font-size:17px; }
+    .insight-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
+    .insight { padding:16px; border:1px solid var(--line); border-radius:15px; background:white; }
+    .insight strong { display:block; color:var(--green-dark); font-size:14px; }
+    .insight p { color:#536157; font-size:13px; line-height:1.75; margin:7px 0 0; }
+    .insight small { display:block; color:#899184; margin-top:9px; font-size:11px; }
+    .baike-card { background:#f1f3ed; border-radius:15px; padding:18px 20px; }
+    .baike-card p { color:#536157; line-height:1.8; margin:0 0 10px; font-size:14px; }
+    .baike-card small { color:#899184; line-height:1.6; }
     .result-actions { display:flex; justify-content:center; gap:11px; flex-wrap:wrap; margin-top:25px; }
     .result-note { margin:22px auto 0; max-width:560px; color:#999f93; font-size:11px; line-height:1.7; }
     .hidden { display:none !important; }
@@ -93,6 +104,8 @@
       .pass-row .primary { width:100%; }
       .option { padding:15px 14px; }
       .nav-hint { display:none; }
+      .insight-grid { grid-template-columns:1fr; }
+      .illustration img { height:205px; }
     }
   </style>
 </head>
@@ -135,10 +148,12 @@
 
       <section class="panel result-panel hidden" id="result" aria-labelledby="result-name" aria-live="polite">
         <div class="result-kicker">YOUR WILD SELF</div>
+        <div class="illustration"><img id="result-image" alt="" width="320" height="240"></div>
         <h2 class="result-animal" id="result-name"></h2>
         <div class="score" id="result-score"></div>
         <div class="result-copy" id="result-copy"></div>
-        <div class="result-art" aria-hidden="true">✧　❋　✧</div>
+        <div class="result-section"><h3>从你的答案里，看见这些侧面</h3><div class="insight-grid" id="insight-grid"></div></div>
+        <div class="result-section baike-card"><h3>动物小档案 · 认识真实的它</h3><p id="baike-copy"></p><small>这里介绍的是动物的自然特征，与你的性格侧写分别阅读更有趣。</small></div>
         <div class="result-actions">
           <button class="primary" id="restart" type="button">重新测试</button>
           <button class="secondary" id="back-to-answers" type="button">回看答案</button>
@@ -192,6 +207,27 @@
     { min:4, max:5, name:'猫', copy:'独立又敏感，亲近但有边界感。喜欢熟悉的环境，认人但不盲从，外表慵懒，反应很快，有自己的节奏，不喜欢被强行约束。' },
     { min:2, max:3, name:'穗鹛', copy:'小型群居林鸟，叽叽喳喳，精力充沛。热衷社交，喜欢凑热闹，心思简单，记性偏向开心的小事，很容易被新鲜事物吸引。' },
     { min:0, max:1, name:'藏野驴', copy:'自由奔放，热爱开阔旷野。群居，行动力强，不怕陌生环境，讨厌拘束，向往无拘无束，性格直率，敢闯敢跑。' }
+  ];
+  const slugs = ['clouded-leopard','olm','barn-owl','pangolin','musk-deer','otter','silver-pheasant','takin','golden-pheasant','cat','stachyris','kiang'];
+  const animalFacts = {
+    '云豹': { summary:'云豹是一类生活在亚洲森林中的猫科动物，身上大块、边缘深色的斑纹形似云朵。它们有强健的四肢与长尾，擅长攀爬树木。' },
+    '盲螈': { summary:'盲螈又叫洞螈，是终生生活在地下水洞穴里的两栖动物。它体色浅淡，保留羽状外鳃，成年个体的眼睛退化并隐藏在皮肤下。' },
+    '仓鸮': { summary:'仓鸮最醒目的特征是心形面盘。它通常在夜间活动，依靠敏锐听觉定位猎物，主要捕食小型啮齿动物。' },
+    '穿山甲': { summary:'穿山甲是披着角质鳞片的哺乳动物，受到威胁时会蜷成球形。它们用长舌捕食蚂蚁和白蚁；多个物种面临严重保护压力。' },
+    '麝': { summary:'麝是生活在山地森林里的小型有蹄动物，并非真正的鹿。它没有鹿角；雄性的上犬齿突出，在嘴边形成醒目的长牙。' },
+    '水獭': { summary:'水獭是适应水陆两栖生活的鼬科动物，身体修长、脚趾间有蹼，擅长游泳。不同种类栖息在河流、湖泊或沿海环境。' },
+    '白鹇': { summary:'白鹇是一种林栖雉类。雄鸟以白色背羽、黑色腹部和修长尾羽十分醒目，常在林下地面觅食。' },
+    '羚牛': { summary:'羚牛是牛科的山地动物，身形厚实，雌雄都长有弯曲的角。它们能在陡峭山地活动，主要取食草叶等植物。' },
+    '红腹锦鸡': { summary:'红腹锦鸡是一种雉类，雄鸟有金黄色头冠、橙色披肩和鲜红的腹部；鲜艳羽色在森林中格外醒目。' },
+    '猫': { summary:'家猫是与人共同生活的猫科动物，听觉灵敏，胡须能帮助感知周围空间。它们既保留狩猎本能，也能与人建立稳定的相处关系。' },
+    '穗鹛': { summary:'“穗鹛”通常指穗鹛属的一类小型林鸟，而不是单一物种。不同种类的羽色和分布各不相同，常见棕褐色系，活动于林中。' },
+    '藏野驴': { summary:'藏野驴是青藏高原的野生马科动物，体色以棕红和白色为主。它们适应高海拔的寒冷、干燥环境，常在开阔地带活动。' }
+  };
+  const insights = [
+    { title:'面对未知', ids:[0,12], bothA:'你更愿意先观察陌生环境，遇到风险也会优先隐蔽自保；审慎，是你给自己的缓冲空间。', bothB:'你喜欢先探索新鲜事物，遇到风险也倾向快速行动；行动让你更快找到出口。', aThenB:'陌生环境里你先观察，但真遇到危险会迅速逃离或反击；你把谨慎留给准备，把果断留给关键时刻。', bThenA:'你对陌生地方充满探索欲，真正遇到危险时却会先藏好自己；好奇和自我保护可以同时存在。' },
+    { title:'亲密与依靠', ids:[2,20], bothA:'你珍惜独处，脆弱时也更愿意先自己消化；私人空间会帮你恢复能量。', bothB:'你喜欢有人陪伴，难过时也愿意向同伴求助；连接是你的安全感来源。', aThenB:'平时你需要独处和安静，但受伤时愿意寻求庇护；你不是不需要人，只是更在意陪伴出现的时机。', bThenA:'你喜欢与同伴相伴，却倾向在脆弱时独自静养；热闹与私密都是你需要的空间。' },
+    { title:'目标的节奏', ids:[7,23], bothA:'你会耐心等待机会，也愿意为长期目标守候；比起速度，你更看重时机。', bothB:'你偏向主动争取、把握眼前机会；想做的事，你更愿意马上开始。', aThenB:'你能潜伏等待争取的时机，但面对目标更珍惜眼前的机会；等待是手段，不是拖延。', bThenA:'你愿意主动出击争取机会，同时也能为重要目标长期守候；行动力和耐心并不冲突。' },
+    { title:'边界与表达', ids:[8,15], bothA:'你重视私人边界，好感也倾向默默表达；亲近并不意味着必须毫无保留。', bothB:'你愿意接纳别人靠近，也乐于直接表达善意；热情是你建立联系的方式。', aThenB:'你很在意私人边界，却不吝于直接表达好感；清楚底线，才能更安心地热情。', bThenA:'你愿意接纳别人靠近，却喜欢用默默关照表达好感；开放并不一定要高调。' }
   ];
 
   const gate = document.getElementById('gate');
@@ -276,6 +312,26 @@
     document.getElementById('result-name').textContent = matched.name;
     document.getElementById('result-score').textContent = `24 题中，你选择了 ${aCount} 个 A`;
     document.getElementById('result-copy').textContent = matched.copy;
+    const image = document.getElementById('result-image');
+    image.src = `animals/${slugs[results.indexOf(matched)]}.svg`;
+    image.alt = `${matched.name}的原创卡通插画`;
+    const grid = document.getElementById('insight-grid');
+    grid.replaceChildren();
+    insights.forEach(item => {
+      const [first, second] = item.ids.map(index => answers[index]);
+      const card = document.createElement('div');
+      card.className = 'insight';
+      const heading = document.createElement('strong');
+      heading.textContent = item.title;
+      const text = document.createElement('p');
+      text.textContent = first === second ? (first === 0 ? item.bothA : item.bothB) : (first === 0 ? item.aThenB : item.bThenA);
+      const basis = document.createElement('small');
+      basis.textContent = `依据第 ${item.ids[0] + 1}、${item.ids[1] + 1} 题的选择`;
+      card.append(heading, text, basis);
+      grid.appendChild(card);
+    });
+    const fact = animalFacts[matched.name];
+    document.getElementById('baike-copy').textContent = fact.summary;
     document.getElementById('range-note').textContent = aCount === 11
       ? '区间说明：原始结果中水獭（11–12）与白鹇（10–11）在 11 个 A 处重叠；本页面按结果列表顺序优先匹配，因此 11 个 A 归为水獭。'
       : '';
