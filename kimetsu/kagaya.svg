@@ -1,9 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img"><title>原创角色卡通插画</title><ellipse cx="160" cy="218" rx="108" ry="10" fill="#7a6fae" opacity=".2"/><circle cx="160" cy="116" r="100" fill="#ece5f8"/><path d="M106 124 Q102 58 160 54 Q218 58 214 124 L216 176 Q210 190 200 176 L196 132 124 132 120 176 Q110 190 104 176Z" fill="#2b2740"/>
-<ellipse cx="160" cy="134" rx="55" ry="52" fill="#f2e3d3"/>
-<ellipse cx="107" cy="136" rx="8" ry="11" fill="#dfc8b0"/><ellipse cx="213" cy="136" rx="8" ry="11" fill="#dfc8b0"/>
-<path d="M110 98 Q112 62 158 58 Q160 74 160 98 Q140 84 128 94 Q118 88 110 98Z" fill="#2b2740"/>
-<path d="M210 98 Q208 62 162 58 Q160 74 160 98 Q180 84 192 94 Q202 88 210 98Z" fill="#2b2740"/>
-<path d="M132 124 Q142 118 152 124" stroke="#5a4a52" stroke-width="4" fill="none" stroke-linecap="round"/>
-<path d="M168 124 Q178 118 188 124" stroke="#5a4a52" stroke-width="4" fill="none" stroke-linecap="round"/>
-<path d="M150 154 Q160 160 170 154" stroke="#a15e5a" stroke-width="3" fill="none" stroke-linecap="round"/>
-<ellipse cx="114" cy="142" rx="9" ry="5" fill="#f2a3b5" opacity=".55"/><ellipse cx="206" cy="142" rx="9" ry="5" fill="#f2a3b5" opacity=".55"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img"><title>动漫风格原创角色插画</title><ellipse cx="160" cy="220" rx="106" ry="10" fill="#7a6fae" opacity=".2"/><circle cx="160" cy="112" r="96" fill="#ece5f8"/><path d="M106 124 Q102 52 160 48 Q218 52 214 124 L218 206 Q206 218 198 204 L192 140 128 140 122 204 Q114 218 102 206Z" fill="#2c2846"/>
+<ellipse cx="160" cy="130" rx="50" ry="48" fill="#f8dcc4"/><ellipse cx="108" cy="134" rx="7" ry="10" fill="#eac6a8"/><ellipse cx="212" cy="134" rx="7" ry="10" fill="#eac6a8"/>
+<path d="M132 92 Q138 60 160 56 Q182 60 188 92 Q180 82 172 86 Q160 74 148 86 Q140 82 132 92Z" fill="#221f35"/>
+<path d="M148 70 L152 76 L148 82 L144 76Z" fill="#8a5b5b"/><path d="M164 70 L168 76 L164 82 L160 76Z" fill="#8a5b5b"/>
+<ellipse cx="142.0" cy="120" rx="8" ry="9" fill="#fff" stroke="#453a5c" stroke-width="2"/><ellipse cx="142.0" cy="121" rx="5.6" ry="7.6499999999999995" fill="#6e5f4f"/><circle cx="142.0" cy="121" r="3.78" fill="#241b33"/><circle cx="139.6" cy="116.4" r="2.0" fill="#fff"/><ellipse cx="178.0" cy="120" rx="8" ry="9" fill="#fff" stroke="#453a5c" stroke-width="2"/><ellipse cx="178.0" cy="121" rx="5.6" ry="7.6499999999999995" fill="#6e5f4f"/><circle cx="178.0" cy="121" r="3.78" fill="#241b33"/><circle cx="175.6" cy="116.4" r="2.0" fill="#fff"/>
+<path d="M116 104 q8 -5 16 0" stroke="#4a4152" stroke-width="3" fill="none" stroke-linecap="round" transform="rotate(0 160 104)"/><path d="M188 104 q8 -5 16 0" stroke="#4a4152" stroke-width="3" fill="none" stroke-linecap="round" transform="rotate(0 160 104)"/>
+<path d="M150 148 Q160 156.0 170 148" stroke="#a5705c" stroke-width="3" fill="none" stroke-linecap="round"/>
+<ellipse cx="116" cy="138" rx="8" ry="4.5" fill="#f2a3b5" opacity=".5"/><ellipse cx="204" cy="138" rx="8" ry="4.5" fill="#f2a3b5" opacity=".5"/></svg>

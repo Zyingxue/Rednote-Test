@@ -1,9 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img"><title>原创角色卡通插画</title><ellipse cx="160" cy="218" rx="108" ry="10" fill="#7a6fae" opacity=".2"/><circle cx="160" cy="116" r="100" fill="#ece5f8"/><ellipse cx="160" cy="136" rx="56" ry="52" fill="#d9a97e"/>
-<ellipse cx="106" cy="138" rx="8" ry="11" fill="#c4906a"/><ellipse cx="214" cy="138" rx="8" ry="11" fill="#c4906a"/>
-<path d="M102 100 Q98 44 128 62 L142 24 156 58 168 20 182 60 Q220 40 218 100 Q212 120 160 118 Q108 120 102 100Z" fill="#eceaf4"/>
-<path d="M126 92 Q136 76 150 88 Q158 74 172 88 Q186 76 194 94" stroke="#b7b2c6" stroke-width="4" fill="none" stroke-linecap="round"/>
-<ellipse cx="143" cy="120" rx="10" ry="10" fill="#fff" stroke="#5a4a70" stroke-width="2"/><ellipse cx="143" cy="120" rx="6.2" ry="8.0" fill="#b03a5b"/><circle cx="145.2" cy="117.5" r="4.5" fill="#20182f"/><circle cx="140.2" cy="116.5" r="2.2" fill="#fff"/><ellipse cx="177" cy="120" rx="10" ry="10" fill="#fff" stroke="#5a4a70" stroke-width="2"/><ellipse cx="177" cy="120" rx="6.2" ry="8.0" fill="#b03a5b"/><circle cx="179.2" cy="117.5" r="4.5" fill="#20182f"/><circle cx="174.2" cy="116.5" r="2.2" fill="#fff"/>
-<path d="M134 138 h14 M172 138 h14" stroke="#c94f6d" stroke-width="4" stroke-linecap="round"/>
-<path d="M142 150 Q160 164 178 150" stroke="#8a5b46" stroke-width="4" fill="none" stroke-linecap="round"/>
-<path d="M150 152 L152 158 158 153 164 158 166 152" stroke="#fff" stroke-width="3" fill="none"/>
-<path d="M116 166 L204 166 Q214 168 212 180 Q206 210 160 210 Q114 210 108 180 Q106 168 116 166Z" fill="#3a3550"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img"><title>动漫风格原创角色插画</title><ellipse cx="160" cy="220" rx="106" ry="10" fill="#7a6fae" opacity=".2"/><circle cx="160" cy="112" r="96" fill="#ece5f8"/><ellipse cx="160" cy="132" rx="#d9a97e" ry="48" fill="#f8dcc4"/><ellipse cx="108" cy="136" rx="7" ry="10" fill="#eac6a8"/><ellipse cx="212" cy="136" rx="7" ry="10" fill="#eac6a8"/>
+<path d="M102 96 Q98 38 130 56 L142 20 156 54 168 16 182 58 Q224 38 222 96 Q216 118 160 116 Q104 118 102 96Z" fill="#262236"/>
+<path d="M118 92 Q160 78 202 92" stroke="#3c3655" stroke-width="4" fill="none" opacity=".7"/>
+<ellipse cx="142.0" cy="120" rx="9" ry="10" fill="#fff" stroke="#453a5c" stroke-width="2"/><ellipse cx="142.0" cy="121" rx="6.3" ry="8.5" fill="#b03a5b"/><circle cx="142.0" cy="121" r="4.2" fill="#241b33"/><circle cx="139.3" cy="116.0" r="2.0" fill="#fff"/><ellipse cx="178.0" cy="120" rx="9" ry="10" fill="#fff" stroke="#453a5c" stroke-width="2"/><ellipse cx="178.0" cy="121" rx="6.3" ry="8.5" fill="#b03a5b"/><circle cx="178.0" cy="121" r="4.2" fill="#241b33"/><circle cx="175.3" cy="116.0" r="2.0" fill="#fff"/>
+<path d="M134 134 h10 M176 134 h10" stroke="#c94f6d" stroke-width="4" stroke-linecap="round"/>
+<path d="M146 86 l6 12 6-12" stroke="#c94f6d" stroke-width="3" fill="none" stroke-linecap="round"/>
+<path d="M150 150 Q160 158.0 170 150" stroke="#8a5b46" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+<circle cx="112" cy="86" r="4" fill="#e0592f"/><circle cx="208" cy="86" r="4" fill="#e0592f"/>
+<path d="M114 168 L206 168 Q216 170 214 182 Q208 212 160 212 Q112 212 106 182 Q104 170 114 168Z" fill="#3a3550"/>
+<circle cx="132" cy="188" r="4.5" fill="#e8c14f"/><circle cx="160" cy="192" r="4.5" fill="#e8c14f"/><circle cx="188" cy="188" r="4.5" fill="#e8c14f"/></svg>
