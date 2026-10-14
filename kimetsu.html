@@ -1,0 +1,506 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#efeaf7"/>
+  <title>鬼灭测试｜你和鬼灭之刃里的谁最像</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg:#efeaf7; --paper:#ffffff; --ink:#2d2458; --muted:#8a80b8;
+      --primary:#6b5db8; --accent:#8a7bd6; --line:#ddd8ee; --soft:#f7f4fd;
+    }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html { -webkit-text-size-adjust:100%; }
+    body {
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+      background:radial-gradient(1200px 600px at 80% -10%, #e4d9f5 0%, var(--bg) 55%);
+      color:var(--ink); min-height:100vh; padding:28px 18px 46px; line-height:1.7;
+    }
+    main { max-width:680px; margin:0 auto; }
+    .panel { background:var(--paper); border:1px solid var(--line); border-radius:26px; padding:clamp(24px,6vw,44px); box-shadow:0 18px 50px -30px rgba(45,36,88,.35); }
+    .hidden { display:none; }
+    .masthead { text-align:center; margin-bottom:22px; }
+    .kicker { color:var(--primary); font-size:12px; letter-spacing:.35em; font-weight:800; }
+    h1 { font-family:Georgia,"Songti SC",serif; font-size:clamp(26px,6vw,40px); margin:10px 0 8px; letter-spacing:.02em; }
+    .subtitle { color:var(--muted); font-size:14px; }
+    .footnote { text-align:center; color:#a49cc4; font-size:12px; margin-top:18px; line-height:1.6; }
+    .gate-form { display:flex; gap:10px; margin-top:24px; }
+    .gate-form input {
+      flex:1; padding:14px 16px; border-radius:14px; border:1.5px solid var(--line);
+      background:var(--soft); color:var(--ink); font-size:16px; letter-spacing:.4em; text-align:center; outline:none; transition:border-color .2s;
+    }
+    .gate-form input:focus { border-color:var(--accent); }
+    .btn { padding:14px 26px; border-radius:14px; border:none; cursor:pointer; font-size:15px; font-weight:700; transition:transform .15s, box-shadow .15s; }
+    .btn:active { transform:scale(.97); }
+    .btn.primary { background:var(--primary); color:#fff; box-shadow:0 10px 24px -12px rgba(107,93,184,.8); }
+    .btn.primary:hover { background:var(--accent); }
+    .btn.secondary { background:var(--soft); color:var(--primary); border:1.5px solid var(--line); }
+    .error { color:#c05b7a; font-size:13px; margin-top:12px; text-align:center; min-height:20px; }
+    .test-head { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; }
+    .test-title { font-size:19px; font-weight:800; }
+    .count { color:var(--muted); font-size:13px; font-variant-numeric:tabular-nums; }
+    .progress-track { height:6px; border-radius:99px; background:var(--line); overflow:hidden; margin-bottom:26px; }
+    .progress-fill { height:100%; width:0; background:linear-gradient(90deg,var(--primary),var(--accent)); border-radius:99px; transition:width .25s ease; }
+    .question { font-size:clamp(17px,4.4vw,21px); font-weight:800; line-height:1.6; margin-bottom:20px; }
+    .options { display:grid; gap:12px; }
+    .option {
+      width:100%; text-align:left; padding:16px 18px; border-radius:16px; border:1.5px solid var(--line);
+      background:var(--soft); color:var(--ink); font-size:15.5px; line-height:1.65; cursor:pointer;
+      transition:border-color .15s, background .15s, transform .15s;
+    }
+    .option:hover { border-color:var(--accent); background:#f0eafb; }
+    .option:active { transform:scale(.98); }
+    .option .tag { display:inline-block; margin-right:8px; color:var(--primary); font-weight:800; }
+    .nav { display:flex; justify-content:space-between; align-items:center; margin-top:24px; }
+    .nav-hint { color:#b1a9d2; font-size:12px; }
+    .result-panel { text-align:center; }
+    .result-kicker { color:var(--primary); font-size:12px; letter-spacing:.28em; font-weight:800; }
+    .illustration { width:min(100%,380px); margin:14px auto 4px; border-radius:22px; background:radial-gradient(circle at 50% 54%, #ece5f8 0%, #f8f5fe 65%, transparent 72%); }
+    .illustration img { display:block; width:100%; height:240px; object-fit:contain; }
+    .result-name { margin:10px 0 6px; font-family:Georgia,"Songti SC",serif; font-size:clamp(36px,9vw,56px); line-height:1.2; }
+    .route-tag { display:inline-block; background:var(--soft); border:1px solid var(--line); color:var(--primary); font-size:12.5px; padding:6px 14px; border-radius:99px; margin-top:4px; }
+    .result-copy { color:#5b5480; max-width:520px; margin:18px auto 0; font-size:15px; }
+    .quote { max-width:480px; margin:22px auto 0; padding:16px 22px; border-left:3px solid var(--accent); background:var(--soft); border-radius:0 16px 16px 0; text-align:left; }
+    .quote p { color:#4a4270; font-size:14.5px; }
+    .quote small { display:block; color:var(--muted); margin-top:6px; font-size:11px; }
+    .result-actions { display:flex; gap:12px; justify-content:center; margin-top:28px; flex-wrap:wrap; }
+    .result-note { margin:20px auto 0; max-width:560px; color:#a49cc4; font-size:11px; line-height:1.7; }
+    @media (max-width:520px) {
+      .illustration img { height:200px; }
+      .nav-hint { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="masthead">
+      <div class="kicker">KIMETSU PERSONA</div>
+      <h1>鬼灭测试</h1>
+      <div class="subtitle">你和《鬼灭之刃》里的谁最像 · 10 题 · 12 种结果</div>
+    </div>
+
+    <section class="panel hidden" id="gate" aria-label="权限验证">
+      <p class="subtitle" style="text-align:center">请输入验证码进入测试</p>
+      <form class="gate-form" id="gate-form">
+        <input id="passcode" inputmode="numeric" autocomplete="off" placeholder="····" maxlength="4" aria-label="验证码"/>
+        <button class="btn primary" type="submit">进 入</button>
+      </form>
+      <p class="error" id="gate-error" aria-live="polite"></p>
+    </section>
+
+    <section class="panel hidden" id="test" aria-labelledby="question-text" aria-live="polite">
+      <div class="test-head">
+        <span class="test-title">跟随直觉作答</span>
+        <span class="count" id="count">第 1 / 10 题</span>
+      </div>
+      <div class="progress-track" role="progressbar" aria-label="答题进度" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><div class="progress-fill" id="progress-fill"></div></div>
+      <div id="question-area"></div>
+      <div class="nav">
+        <button class="btn secondary" id="prev" type="button">上 一 题</button>
+        <span class="nav-hint">选择后自动进入下一题</span>
+      </div>
+    </section>
+
+    <section class="panel result-panel hidden" id="result" aria-labelledby="result-name" aria-live="polite">
+      <div class="result-kicker">YOUR MATCH</div>
+      <div class="illustration"><img id="result-image" alt="" width="320" height="240"></div>
+      <h2 class="result-name" id="result-name"></h2>
+      <div class="route-tag" id="route-tag"></div>
+      <div class="result-copy" id="result-copy"></div>
+      <div class="quote"><p id="quote-text"></p><small>人物心声（趣味演绎）</small></div>
+      <div class="result-actions">
+        <button class="btn primary" id="restart" type="button">重新测试</button>
+      </div>
+      <p class="result-note">本测试为粉丝向趣味作品，结果仅供娱乐，不代表官方设定或专业心理评估。作答仅保存在当前页面，关闭或重置后即清除。</p>
+    </section>
+
+    <p class="footnote">本测试不收集、不上传任何信息。</p>
+  </main>
+<script>
+  (() => {
+    const ACCESS_CODE = '5566';
+    const gate = document.getElementById('gate');
+    const test = document.getElementById('test');
+    const result = document.getElementById('result');
+    const input = document.getElementById('passcode');
+    const error = document.getElementById('gate-error');
+    const area = document.getElementById('question-area');
+    const count = document.getElementById('count');
+    const fill = document.getElementById('progress-fill');
+    const prev = document.getElementById('prev');
+
+    document.getElementById('gate-form').addEventListener('submit', event => {
+      event.preventDefault();
+      if (input.value.trim() === ACCESS_CODE) {
+        gate.classList.add('hidden');
+        test.classList.remove('hidden');
+        renderQuestion();
+      } else {
+        error.textContent = '验证码不对，再想想～';
+        input.select();
+      }
+    });
+
+    const entry = {
+      text: '深夜，鬼杀队紧急集合的钟声响起，你的第一反应是？',
+      options: [
+        { label: '先问清楚：地点、敌情、几个人', line: 'rational' },
+        { label: '刀已经在手里，人已经在门口', line: 'hot' },
+        { label: '先冲去叫醒隔壁房间的伙伴', line: 'guard' },
+        { label: '用被子蒙住头：别点我别点我', line: 'hidden' }
+      ]
+    };
+
+    const LINES = {
+      rational: {
+        name: '理智线', chars: ['时透无一郎', '胡蝶忍', '产屋敷耀哉'],
+        qs: [
+          { text: '队伍出发前，你最常扮演的角色是？', options: [
+            { label: '默默核对装备清单', score: 0 },
+            { label: '顺口点破谁的紧张', score: 1 },
+            { label: '确认每个人的分工和状态', score: 2 }
+          ]},
+          { text: '遇到第一次见面的强敌，你先看什么？', options: [
+            { label: '它的动作规律', score: 0 },
+            { label: '它的弱点和虚荣', score: 1 },
+            { label: '我方谁能补谁的位', score: 2 }
+          ]},
+          { text: '你更依赖的获胜方式是？', options: [
+            { label: '算出它唯一的破绽', score: 0, drill: 'a' },
+            { label: '让它自己走进圈套', score: 1, drill: 'b' },
+            { label: '让每个人都发挥所长', score: 2, drill: 'b' }
+          ]},
+          { a: { text: '（独自解题型）沉浸解题时，你像？', options: [
+              { label: '听不见任何人喊我的名字', score: 0 },
+              { label: '边解边讲冷笑话', score: 1 },
+              { label: '心里其实排着所有人的位置', score: 2 }
+            ]},
+            b: { text: '（调度全局型）调度全场时，你？', options: [
+              { label: '话不多，一句顶十句', score: 0 },
+              { label: '笑着把命令说成玩笑', score: 1 },
+              { label: '把每个人放在最合适的位置', score: 2 }
+            ]}
+          },
+          { text: '有人当面质疑你的判断，你会？', options: [
+            { label: '沉默三秒，用事实证明', score: 0 },
+            { label: '微笑反问，问到他哑口无言', score: 1 },
+            { label: '先肯定他的出发点，再给结论', score: 2 }
+          ]},
+          { text: '战后总结会上，你最在意？', options: [
+            { label: '招式和数据的修正', score: 0 },
+            { label: '谁的情绪需要私下关照', score: 1 },
+            { label: '下次怎么让所有人活着回来', score: 2 }
+          ]},
+          { text: '你觉得「强大」是？', options: [
+            { label: '不需要任何人也站得住', score: 0 },
+            { label: '让对手永远低估你', score: 1 },
+            { label: '让身边的人变强', score: 2 }
+          ]},
+          { text: '深夜独自复盘，你更常想到？', options: [
+            { label: '招式的细节', score: 0 },
+            { label: '某个人说过的谎', score: 1 },
+            { label: '大家的笑脸', score: 2 }
+          ]},
+          { text: '最终抉择｜只能留下一种天赋，你选？', options: [
+            { label: '无人能解的剑之天赋', score: 0 },
+            { label: '看穿人心的毒与药', score: 1 },
+            { label: '让万人追随的器量', score: 2 }
+          ], weight: 3 }
+        ]
+      },
+      hot: {
+        name: '热血线', chars: ['炼狱杏寿郎', '宇髄天元', '嘴平伊之助'],
+        qs: [
+          { text: '冲向战场时你的嗓门？', options: [
+            { label: '全场都听得见', score: 0 },
+            { label: '自带回音的华丽高音', score: 1 },
+            { label: '野兽式战吼', score: 2 }
+          ]},
+          { text: '队友想替你挡刀，你会？', options: [
+            { label: '大吼「退后！」挡回去', score: 0 },
+            { label: '「抢我风头？」抢先解决', score: 1 },
+            { label: '没注意到，人已经冲过去了', score: 2 }
+          ]},
+          { text: '你的必杀技风格是？', options: [
+            { label: '一往无前的火焰', score: 0, drill: 'a' },
+            { label: '视觉效果拉满', score: 1, drill: 'b' },
+            { label: '全凭身体本能', score: 2, drill: 'b' }
+          ]},
+          { a: { text: '（招式流）战斗中你最享受？', options: [
+              { label: '燃到极致的对轰', score: 0 },
+              { label: '观众的欢呼', score: 1 },
+              { label: '皮肤传来的战栗', score: 2 }
+            ]},
+            b: { text: '（直觉流）你靠什么躲攻击？', options: [
+              { label: '不躲，硬接再还', score: 0 },
+              { label: '华丽的侧空翻', score: 1 },
+              { label: '空气一动，我就动了', score: 2 }
+            ]}
+          },
+          { text: '庆功宴上你？', options: [
+            { label: '请全场吃乌冬面', score: 0 },
+            { label: '坐主位讲战斗故事', score: 1 },
+            { label: '抢最大的那块肉', score: 2 }
+          ]},
+          { text: '被上级批评了，你会？', options: [
+            { label: '大声回应「明白！」明天更拼', score: 0 },
+            { label: '「我不认可，但我听完」', score: 1 },
+            { label: '根本没在听', score: 2 }
+          ]},
+          { text: '你最看不惯？', options: [
+            { label: '恃强凌弱', score: 0 },
+            { label: '无聊和平庸', score: 1 },
+            { label: '规矩和束缚', score: 2 }
+          ]},
+          { text: '遇到打不过的敌人？', options: [
+            { label: '心之火更旺，再站起来', score: 0 },
+            { label: '优雅撤退，下次十倍奉还', score: 1 },
+            { label: '没有打不过，只有没打完', score: 2 }
+          ]},
+          { text: '最终抉择｜选一个称号？', options: [
+            { label: '「大哥」', score: 0 },
+            { label: '「最华丽」', score: 1 },
+            { label: '「山中王者」', score: 2 }
+          ], weight: 3 }
+        ]
+      },
+      guard: {
+        name: '守护线', chars: ['灶门炭治郎', '甘露寺蜜璃', '栗花落香奈乎'],
+        qs: [
+          { text: '出发前你会？', options: [
+            { label: '挨个确认大家的状态', score: 0 },
+            { label: '兴奋地黏在某人身边', score: 1 },
+            { label: '安静地跟在队尾', score: 2 }
+          ]},
+          { text: '有人受伤还在逞强，你？', options: [
+            { label: '直接戳穿，逼他休息', score: 0 },
+            { label: '慌张地围着他转', score: 1 },
+            { label: '默默替他扛行李', score: 2 }
+          ]},
+          { text: '队里气氛低落时，你是？', options: [
+            { label: '那个开口打气的人', score: 0, drill: 'a' },
+            { label: '那个活跃气氛的开心果', score: 1, drill: 'a' },
+            { label: '那个安静陪着的人', score: 2, drill: 'b' }
+          ]},
+          { a: { text: '（主动型）你安慰人的方式？', options: [
+              { label: '认真听完，郑重回应', score: 0 },
+              { label: '拉他去吃好吃的', score: 1 },
+              { label: '陪着，一句话不说', score: 2 }
+            ]},
+            b: { text: '（安静型）你的关心藏在？', options: [
+              { label: '行动里，被发现会慌', score: 0 },
+              { label: '嘴里，藏都藏不住', score: 1 },
+              { label: '眼睛里，只在重要时刻', score: 2 }
+            ]}
+          },
+          { text: '被夸奖时你会？', options: [
+            { label: '认真道谢，再加倍对人好', score: 0 },
+            { label: '脸红到耳根，语无伦次', score: 1 },
+            { label: '愣住，然后小声说谢谢', score: 2 }
+          ]},
+          { text: '做重要决定时你听？', options: [
+            { label: '内心的原则', score: 0 },
+            { label: '情绪和直觉', score: 1 },
+            { label: '那个最重要的人', score: 2 }
+          ]},
+          { text: '你对「喜欢」的表达？', options: [
+            { label: '用行动慢慢证明', score: 0 },
+            { label: '直接说，藏不住', score: 1 },
+            { label: '对方不说破，我也不说', score: 2 }
+          ]},
+          { text: '深夜想到最怕失去的是？', options: [
+            { label: '再也救不到的人', score: 0 },
+            { label: '恋爱的可能性', score: 1 },
+            { label: '现在的日常', score: 2 }
+          ]},
+          { text: '最终抉择｜你的温柔更像？', options: [
+            { label: '太阳，照到每个人', score: 0 },
+            { label: '粉色火焰，为自己烧', score: 1 },
+            { label: '月光，安静地亮', score: 2 }
+          ], weight: 3 }
+        ]
+      },
+      hidden: {
+        name: '隐忍线', chars: ['富冈义勇', '不死川玄弥', '我妻善逸'],
+        qs: [
+          { text: '你在队伍里的存在感？', options: [
+            { label: '生人勿近的气场', score: 0 },
+            { label: '全场最凶的脸', score: 1 },
+            { label: '抱怨声最大', score: 2 }
+          ]},
+          { text: '有人主动搭话，你？', options: [
+            { label: '三句内结束对话', score: 0 },
+            { label: '呛回去，但人没走', score: 1 },
+            { label: '受宠若惊，话变多', score: 2 }
+          ]},
+          { text: '你的坚强时刻是？', options: [
+            { label: '独自面对强敌时', score: 0, drill: 'a' },
+            { label: '那个人被欺负时', score: 1, drill: 'b' },
+            { label: '极限崩溃之后', score: 2, drill: 'b' }
+          ]},
+          { a: { text: '（独处型）消化情绪的方式？', options: [
+              { label: '站在水边，不说话', score: 0 },
+              { label: '砸墙', score: 1 },
+              { label: '哭完睡一觉', score: 2 }
+            ]},
+            b: { text: '（爆发型）你的爆发通常因为？', options: [
+              { label: '有人在受伤害', score: 0 },
+              { label: '被看扁了', score: 1 },
+              { label: '那个人有危险', score: 2 }
+            ]}
+          },
+          { text: '别人眼中 vs 真实的你？', options: [
+            { label: '冷漠｜心里装着所有人', score: 0 },
+            { label: '刺头｜渴望被认可', score: 1 },
+            { label: '胆小｜温柔到骨子里', score: 2 }
+          ]},
+          { text: '你最放不下的是？', options: [
+            { label: '没救到的那个人', score: 0 },
+            { label: '想要保护的人', score: 1 },
+            { label: '想抢的先被抢走了', score: 2 }
+          ]},
+          { text: '被误解时你会？', options: [
+            { label: '不解释，时间会证明', score: 0 },
+            { label: '越描越黑，干脆动手', score: 1 },
+            { label: '内心戏演了八百集', score: 2 }
+          ]},
+          { text: '你的信任？', options: [
+            { label: '极慢，但一辈子不变', score: 0 },
+            { label: '只给打过架的人', score: 1 },
+            { label: '只给一个人', score: 2 }
+          ]},
+          { text: '最终抉择｜选你的高光时刻？', options: [
+            { label: '独自断后，转身成墙', score: 0 },
+            { label: '咬着牙咽下血，再站起来', score: 1 },
+            { label: '睡着之后，才真正醒来', score: 2 }
+          ], weight: 3 }
+        ]
+      }
+    };
+
+    const RESULTS = {
+      '时透无一郎': { slug:'muichiro', copy:'疏离淡漠的天才剑士，沉浸在自己的世界里。看起来对什么都不在意，其实只是把专注全部留给了最重要的事。不记人脸、不擅长寒暄，可一旦认定，就会以天才的方式全力以赴。', quote:'……你刚才，说什么来着？' },
+      '胡蝶忍': { slug:'shinobu', copy:'永远带着微笑，但笑容底下藏着锋芒。理智克制、心思缜密，从不硬碰硬，却总能用最优雅的方式解决麻烦。生气的时候，反而笑得更甜。', quote:'我看起来，像在生气吗？' },
+      '产屋敷耀哉': { slug:'kagaya', copy:'温和从容的领袖气质。不强势、不喧哗，却让人愿意追随。擅长看见每个人的价值，把一群性格迥异的人拧成一股绳。', quote:'大家的平安，就是我的幸运。' },
+      '炼狱杏寿郎': { slug:'rengoku', copy:'声若洪钟的「大哥」型人格。热血、坦荡、意志燃烧到底。天生的守护者，走到哪里就把光和热带到哪里。', quote:'心，是燃烧的！' },
+      '宇髄天元': { slug:'tengen', copy:'华丽！自信！走到哪里都是舞台中央。看起来浮夸，实际判断精准、临危不乱——真正的「实力配得上排场」。', quote:'毕竟，我很华丽。' },
+      '嘴平伊之助': { slug:'inosuke', copy:'野性直觉的「山中王者」。二话不说先冲，打了再说，字典里没有「退缩」。看起来莽，战斗嗅觉却是一流；嘴上喊着当老大，心里早把同伴当家人。', quote:'要打就快打，本大爷赶时间！' },
+      '灶门炭治郎': { slug:'tanjiro', copy:'温柔而坚定的「太阳型」人格。共情能力极强，能看见别人的痛苦并认真回应；同时有不可动摇的原则与韧性，跌倒一百次就爬起来一百零一次。', quote:'努力的人，不会被辜负。' },
+      '甘露寺蜜璃': { slug:'mitsuri', copy:'情感浓度 200% 的坦率人格。三秒喜欢上一个人，一顿能吃一百个饭团，想到什么说什么。情绪外放、可爱好相处，但实力是真的硬。', quote:'恋爱和饭团，都很重要！' },
+      '栗花落香奈乎': { slug:'kanao', copy:'安安静静，话很少，习惯跟在别人身后。看起来没主见，其实内心柔软坚定，关键时刻比谁都可靠。温柔藏在行动里，不在嘴上。', quote:'……（在心里，已经有了答案）' },
+      '富冈义勇': { slug:'giyuu', copy:'沉默寡言，不善表达，总被误解成冷漠，实际心思极重、重情重义。被误解了也懒得解释——懂的人自然懂。', quote:'……嗯。' },
+      '不死川玄弥': { slug:'genya', copy:'嘴硬心软的别扭担当。表面凶巴巴，实际极度渴望被认可、被需要。像刺猬一样竖起外壳，但为了在意的人，可以拼命到不讲道理。', quote:'别、小看我。' },
+      '我妻善逸': { slug:'zenitsu', copy:'平时胆小聒噪、爱哭爱抱怨，极限状态下切换成「睡莲模式」，强得离谱。永远第一个为朋友拼命，嘴上千个不愿意，身体最诚实。', quote:'趁我睡着……解决的哦。' }
+    };
+
+    let entryChoice = null;
+    let lineKey = null;
+    let answers = [];
+
+    function currentQuestion() {
+      if (entryChoice === null) return entry;
+      const line = LINES[lineKey];
+      const index = answers.length;
+      if (index >= line.qs.length) return null;
+      const q = line.qs[index];
+      if (index === 3) return q[answers[2].drill];
+      return q;
+    }
+
+    function renderQuestion() {
+      const q = currentQuestion();
+      if (q === null) { showResult(); return; }
+      const number = entryChoice === null ? 1 : answers.length + 2;
+      count.textContent = `第 ${number} / 10 题`;
+      fill.style.width = `${((number - 1) / 10) * 100}%`;
+      area.replaceChildren();
+      const heading = document.createElement('h2');
+      heading.className = 'question';
+      heading.id = 'question-text';
+      heading.textContent = q.text;
+      area.appendChild(heading);
+      const options = document.createElement('div');
+      options.className = 'options';
+      q.options.forEach((option, i) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'option';
+        const tag = document.createElement('span');
+        tag.className = 'tag';
+        tag.textContent = 'abcdef'[i].toUpperCase();
+        button.append(tag, document.createTextNode(option.label));
+        button.addEventListener('click', () => choose(option));
+        options.appendChild(button);
+      });
+      area.appendChild(options);
+      prev.disabled = entryChoice === null && answers.length === 0;
+      prev.style.opacity = prev.disabled ? '.45' : '1';
+    }
+
+    function choose(option) {
+      if (entryChoice === null) {
+        entryChoice = option;
+        lineKey = option.line;
+        answers = [];
+      } else {
+        answers.push(option);
+      }
+      renderQuestion();
+    }
+
+    prev.addEventListener('click', () => {
+      if (answers.length > 0) answers.pop();
+      else if (entryChoice !== null) { entryChoice = null; lineKey = null; }
+      renderQuestion();
+    });
+
+    function computeWinner() {
+      const line = LINES[lineKey];
+      const scores = [0, 0, 0];
+      const firstVote = [Infinity, Infinity, Infinity];
+      answers.forEach((option, i) => {
+        const weight = i === answers.length - 1 ? 3 : 1;
+        scores[option.score] += weight;
+        if (firstVote[option.score] === Infinity) firstVote[option.score] = i;
+      });
+      let best = 0;
+      for (let i = 1; i < 3; i++) {
+        if (scores[i] > scores[best] || (scores[i] === scores[best] && firstVote[i] < firstVote[best])) best = i;
+      }
+      return best;
+    }
+
+    function showResult() {
+      const line = LINES[lineKey];
+      const name = line.chars[computeWinner()];
+      const data = RESULTS[name];
+      document.getElementById('result-name').textContent = name;
+      document.getElementById('result-copy').textContent = data.copy;
+      document.getElementById('quote-text').textContent = data.quote;
+      const image = document.getElementById('result-image');
+      image.src = `kimetsu/${data.slug}.svg`;
+      image.alt = `${name}的原创卡通插画`;
+      const partners = line.chars.filter(c => c !== name).join('、');
+      document.getElementById('route-tag').textContent = `你的路线：${line.name} · 同路人：${partners}`;
+      test.classList.add('hidden');
+      result.classList.remove('hidden');
+      fill.style.width = '100%';
+      count.textContent = '第 10 / 10 题';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('restart').addEventListener('click', () => {
+      entryChoice = null;
+      lineKey = null;
+      answers = [];
+      result.classList.add('hidden');
+      gate.classList.remove('hidden');
+      input.value = '';
+      error.textContent = '';
+      fill.style.width = '0%';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      input.focus();
+    });
+  })();
+</script>
+</body></html>
